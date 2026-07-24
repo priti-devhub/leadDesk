@@ -1,0 +1,162 @@
+<%- include('partials/header') %>
+
+<main class="landing-wrapper">
+  <!-- Hero Section -->
+  <section class="hero-section py-5 py-lg-6 position-relative overflow-hidden">
+    <div class="hero-glow position-absolute top-0 start-50 translate-middle-x"></div>
+    
+    <div class="container position-relative z-1 text-center py-4">
+      <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 mb-3 shadow-sm inline-flex align-items-center gap-2">
+        <i class="bi bi-rocket-takeoff-fill"></i> Modern Lead Management SaaS
+      </span>
+      
+      <h1 class="display-3 fw-extrabold text-gradient-hero mb-3 tracking-tight">
+        Capture Better Leads.<br />
+        <span class="text-white">Manage Everything Easily.</span>
+      </h1>
+      
+      <p class="lead text-light-muted max-w-2xl mx-auto mb-4">
+        Simple lead management system built with Node.js, Express and MongoDB. Streamline incoming client inquiries and convert prospects faster.
+      </p>
+
+      <div class="d-flex justify-content-center gap-3 align-items-center mb-5">
+        <a href="#lead-form" class="btn btn-primary btn-lg rounded-pill px-4 py-3 fw-semibold shadow-lg btn-glow d-inline-flex align-items-center gap-2">
+          Get Started <i class="bi bi-arrow-down-circle-fill fs-5"></i>
+        </a>
+        <a href="/admin" class="btn btn-outline-secondary btn-lg rounded-pill px-4 py-3 fw-semibold d-inline-flex align-items-center gap-2 text-white border-secondary">
+          <i class="bi bi-speedometer2"></i> Live Admin Demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Form Card Section -->
+  <section id="lead-form" class="py-5 bg-dark-card-section position-relative">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-7">
+          
+          <div class="card card-custom-glass border-0 shadow-2xl rounded-4 overflow-hidden position-relative" id="contact">
+            <div class="card-header-gradient p-4 p-md-5 text-center border-bottom border-secondary-subtle">
+              <div class="form-icon-wrapper mx-auto mb-3">
+                <i class="bi bi-send-fill fs-3 text-primary"></i>
+              </div>
+              <h2 class="h3 fw-bold text-white mb-2">Get in Touch with Us</h2>
+              <p class="text-light-muted mb-0 fs-6">Fill out the details below and our team will get back to you within 24 hours.</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+              
+              <!-- Dynamic Alert Toast -->
+              <div id="form-alert" class="alert d-none rounded-3 mb-4 align-items-center gap-2" role="alert">
+                <i id="alert-icon" class="bi fs-5"></i>
+                <div id="alert-message"></div>
+              </div>
+
+              <!-- Public Lead Form -->
+              <form id="public-lead-form" novalidate>
+                
+                <!-- Name Field -->
+                <div class="mb-4">
+                  <label for="name" class="form-label text-light fw-medium d-flex justify-content-between">
+                    <span>Full Name <span class="text-danger">*</span></span>
+                    <small class="text-muted">Min 3 characters</small>
+                  </label>
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-dark-input border-secondary text-secondary">
+                      <i class="bi bi-person"></i>
+                    </span>
+                    <input 
+                      type="text" 
+                      class="form-control bg-dark-input border-secondary text-white" 
+                      id="name" 
+                      name="name" 
+                      placeholder="e.g. Rahul Sharma"
+                      required
+                    >
+                  </div>
+                  <div class="invalid-feedback-custom text-danger mt-1 small d-none" id="error-name"></div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="mb-4">
+                  <label for="email" class="form-label text-light fw-medium d-flex justify-content-between">
+                    <span>Email Address <span class="text-danger">*</span></span>
+                    <small class="text-muted">Direct contact email</small>
+                  </label>
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-dark-input border-secondary text-secondary">
+                      <i class="bi bi-envelope"></i>
+                    </span>
+                    <input 
+                      type="email" 
+                      class="form-control bg-dark-input border-secondary text-white" 
+                      id="email" 
+                      name="email" 
+                      placeholder="rahul@example.com"
+                      required
+                    >
+                  </div>
+                  <div class="invalid-feedback-custom text-danger mt-1 small d-none" id="error-email"></div>
+                </div>
+
+                <!-- Budget Range Field -->
+                <div class="mb-4">
+                  <label for="budget" class="form-label text-light fw-medium">
+                    Budget Range <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-dark-input border-secondary text-secondary">
+                      <i class="bi bi-currency-rupee"></i>
+                    </span>
+                    <select class="form-select bg-dark-input border-secondary text-white" id="budget" name="budget" required>
+                      <option value="" disabled selected>Select estimated budget</option>
+                      <option value="₹5k–10k">₹5k–10k</option>
+                      <option value="₹10k–25k">₹10k–25k</option>
+                      <option value="₹25k–50k">₹25k–50k</option>
+                      <option value="₹50k+">₹50k+</option>
+                    </select>
+                  </div>
+                  <div class="invalid-feedback-custom text-danger mt-1 small d-none" id="error-budget"></div>
+                </div>
+
+                <!-- Message Field -->
+                <div class="mb-4">
+                  <label for="message" class="form-label text-light fw-medium d-flex justify-content-between">
+                    <span>Project Description / Message <span class="text-danger">*</span></span>
+                    <small class="text-muted">Min 15 characters</small>
+                  </label>
+                  <textarea 
+                    class="form-control bg-dark-input border-secondary text-white" 
+                    id="message" 
+                    name="message" 
+                    rows="4" 
+                    placeholder="Tell us about your requirements, project scope, or timeline..."
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback-custom text-danger mt-1 small d-none" id="error-message"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid mt-4">
+                  <button type="submit" id="submit-btn" class="btn btn-primary btn-lg rounded-3 py-3 fw-bold text-white shadow-lg btn-glow d-flex align-items-center justify-content-center gap-2">
+                    <span id="btn-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    <span id="btn-text">Submit Lead Details</span>
+                    <i id="btn-icon" class="bi bi-send ms-1"></i>
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Client Script for Lead Form -->
+<script src="/js/main.js"></script>
+
+<%- include('partials/footer') %>

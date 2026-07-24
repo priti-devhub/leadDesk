@@ -1,0 +1,32 @@
+{
+  "name": "leaddesk-mini",
+  "version": "1.0.0",
+  "description": "Production-ready Lead Management System built with Node.js, Express, MongoDB, EJS, and Vanilla JS",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "lead-management",
+    "nodejs",
+    "express",
+    "mongodb",
+    "ejs",
+    "bootstrap5"
+  ],
+  "author": "Digital Heroes Task",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "mongoose": "^8.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  }
+}

@@ -1,0 +1,89 @@
+<%- include('partials/header') %>
+
+<main class="login-wrapper py-5 min-vh-75 d-flex align-items-center justify-content-center position-relative overflow-hidden">
+  
+  <!-- Subtle Hero Background Glow -->
+  <div class="hero-glow position-absolute top-50 start-50 translate-middle z-0 opacity-50"></div>
+
+  <div class="container position-relative z-1" style="max-width: 440px;">
+    <div class="card card-custom-glass border-0 rounded-4 shadow-2xl p-4 p-sm-5">
+      
+      <!-- Login Card Header -->
+      <div class="text-center mb-4">
+        <div class="brand-icon mx-auto rounded-3 d-flex align-items-center justify-content-center text-white mb-3">
+          <i class="bi bi-shield-lock-fill fs-4"></i>
+        </div>
+        <h2 class="h3 fw-bold text-white tracking-tight mb-1">Admin Portal Sign In</h2>
+        <p class="text-light-muted fs-7 mb-0">Enter your administrator credentials to access the dashboard.</p>
+      </div>
+
+      <!-- Error Alert Message -->
+      <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+        <div class="alert alert-danger border-danger-subtle bg-danger-subtle text-danger-emphasis rounded-3 mb-4 d-flex align-items-center gap-2 p-3" role="alert">
+          <i class="bi bi-exclamation-octagon-fill fs-5 text-danger flex-shrink-0"></i>
+          <div class="fs-7 fw-medium"><%= errorMessage %></div>
+        </div>
+      <% } %>
+
+      <!-- Login Form -->
+      <form action="/login" method="POST" class="needs-validation" novalidate>
+        
+        <!-- Email Input -->
+        <div class="mb-3">
+          <label for="email" class="form-label text-light fs-7 fw-medium tracking-wider text-uppercase">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text bg-dark-input border-secondary text-secondary">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input 
+              type="email" 
+              class="form-control bg-dark-input border-secondary text-white py-2.5 px-3" 
+              id="email" 
+              name="email" 
+              value="<%= typeof email !== 'undefined' ? email : '' %>"
+              placeholder="admin@leaddesk.com" 
+              required
+              autocomplete="email"
+              autofocus
+            >
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="mb-4">
+          <label for="password" class="form-label text-light fs-7 fw-medium tracking-wider text-uppercase">Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-dark-input border-secondary text-secondary">
+              <i class="bi bi-key"></i>
+            </span>
+            <input 
+              type="password" 
+              class="form-control bg-dark-input border-secondary text-white py-2.5 px-3" 
+              id="password" 
+              name="password" 
+              placeholder="••••••••" 
+              required
+              autocomplete="current-password"
+            >
+          </div>
+        </div>
+
+        <!-- Sign In Button -->
+        <button type="submit" class="btn btn-primary btn-glow bg-gradient-primary border-0 w-100 py-3 rounded-3 fw-semibold text-white d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-box-arrow-in-right fs-5"></i> Sign In to Admin
+        </button>
+
+      </form>
+
+      <!-- Back Link -->
+      <div class="text-center mt-4 pt-2 border-top border-secondary-subtle">
+        <a href="/" class="text-decoration-none text-light-muted fs-7 hover-white transition-all">
+          <i class="bi bi-arrow-left me-1"></i> Back to Public Landing Page
+        </a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

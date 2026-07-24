@@ -1,0 +1,241 @@
+<%- include('partials/header') %>
+
+<main class="admin-wrapper py-4 py-md-5">
+  <div class="container">
+    
+    <!-- Admin Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+      <div>
+        <h1 class="h2 fw-bold text-white mb-1 d-flex align-items-center gap-2">
+          <i class="bi bi-speedometer2 text-primary"></i> Admin Dashboard
+        </h1>
+        <p class="text-light-muted mb-0">Manage incoming lead inquiries, track status, and analyze prospects in real-time.</p>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button id="refresh-btn" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2 text-white border-secondary d-flex align-items-center gap-2">
+          <i class="bi bi-arrow-clockwise"></i> Refresh Data
+        </button>
+        <a href="/" class="btn btn-primary btn-sm rounded-pill px-3 py-2 text-white d-flex align-items-center gap-2">
+          <i class="bi bi-plus-lg"></i> New Lead
+        </a>
+      </div>
+    </div>
+
+    <!-- Alert Toast Notification -->
+    <div id="admin-toast" class="alert alert-dismissible fade d-none rounded-3 mb-4 shadow-sm" role="alert">
+      <span id="toast-message"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <% if (typeof dbError !== 'undefined') { %>
+      <div class="alert alert-warning border-warning text-warning-emphasis bg-warning-subtle rounded-3 mb-4 d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+        <div>
+          <strong>Database Notice:</strong> <%= dbError %> Operating in demo mode or check connection details.
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Metric Stat Cards -->
+    <div class="row g-3 mb-4">
+      <!-- Total Leads -->
+      <div class="col-6 col-md-3">
+        <div class="card stat-card card-custom-glass border-0 rounded-4 p-3 p-md-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-light-muted fw-medium fs-7 text-uppercase tracking-wider">Total Leads</span>
+            <div class="stat-icon bg-primary-subtle text-primary rounded-3 p-2">
+              <i class="bi bi-people-fill fs-5"></i>
+            </div>
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-0" id="stat-total"><%= stats ? stats.total : 0 %></h2>
+          <small class="text-muted mt-1 d-block">All submissions</small>
+        </div>
+      </div>
+
+      <!-- New Leads -->
+      <div class="col-6 col-md-3">
+        <div class="card stat-card card-custom-glass border-0 rounded-4 p-3 p-md-4 border-start border-4 border-info">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-light-muted fw-medium fs-7 text-uppercase tracking-wider">New</span>
+            <div class="stat-icon bg-info-subtle text-info rounded-3 p-2">
+              <i class="bi bi-brightness-high-fill fs-5"></i>
+            </div>
+          </div>
+          <h2 class="display-6 fw-bold text-info mb-0" id="stat-new"><%= stats ? stats.new : 0 %></h2>
+          <small class="text-muted mt-1 d-block">Awaiting response</small>
+        </div>
+      </div>
+
+      <!-- Contacted Leads -->
+      <div class="col-6 col-md-3">
+        <div class="card stat-card card-custom-glass border-0 rounded-4 p-3 p-md-4 border-start border-4 border-warning">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-light-muted fw-medium fs-7 text-uppercase tracking-wider">Contacted</span>
+            <div class="stat-icon bg-warning-subtle text-warning rounded-3 p-2">
+              <i class="bi bi-telephone-outbound-fill fs-5"></i>
+            </div>
+          </div>
+          <h2 class="display-6 fw-bold text-warning mb-0" id="stat-contacted"><%= stats ? stats.contacted : 0 %></h2>
+          <small class="text-muted mt-1 d-block">In discussion</small>
+        </div>
+      </div>
+
+      <!-- Closed Leads -->
+      <div class="col-6 col-md-3">
+        <div class="card stat-card card-custom-glass border-0 rounded-4 p-3 p-md-4 border-start border-4 border-success">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-light-muted fw-medium fs-7 text-uppercase tracking-wider">Closed</span>
+            <div class="stat-icon bg-success-subtle text-success rounded-3 p-2">
+              <i class="bi bi-check-circle-fill fs-5"></i>
+            </div>
+          </div>
+          <h2 class="display-6 fw-bold text-success mb-0" id="stat-closed"><%= stats ? stats.closed : 0 %></h2>
+          <small class="text-muted mt-1 d-block">Converted / Done</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table & Search Card -->
+    <div class="card card-custom-glass border-0 rounded-4 shadow-2xl overflow-hidden">
+      
+      <!-- Card Header with Search & Filter -->
+      <div class="card-header bg-dark-glass p-3 p-md-4 border-bottom border-secondary-subtle">
+        <div class="row g-3 align-items-center justify-content-between">
+          <div class="col-12 col-md-6 col-lg-5">
+            <div class="input-group">
+              <span class="input-group-text bg-dark-input border-secondary text-secondary">
+                <i class="bi bi-search"></i>
+              </span>
+              <input 
+                type="text" 
+                id="search-input" 
+                class="form-control bg-dark-input border-secondary text-white" 
+                placeholder="Search by name, email, budget..."
+              >
+              <button class="btn btn-outline-secondary border-secondary text-secondary d-none" type="button" id="clear-search">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4 text-md-end">
+            <span class="text-light-muted fs-7 me-2">Filter Status:</span>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Status Filter">
+              <button type="button" class="btn btn-outline-secondary active filter-status-btn" data-status="All">All</button>
+              <button type="button" class="btn btn-outline-secondary filter-status-btn" data-status="New">New</button>
+              <button type="button" class="btn btn-outline-secondary filter-status-btn" data-status="Contacted">Contacted</button>
+              <button type="button" class="btn btn-outline-secondary filter-status-btn" data-status="Closed">Closed</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Content -->
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0 custom-admin-table">
+          <thead class="table-dark-header border-bottom border-secondary-subtle">
+            <tr>
+              <th scope="col" class="py-3 px-4 text-uppercase fs-7 text-secondary fw-semibold">Name</th>
+              <th scope="col" class="py-3 px-3 text-uppercase fs-7 text-secondary fw-semibold">Email</th>
+              <th scope="col" class="py-3 px-3 text-uppercase fs-7 text-secondary fw-semibold">Budget</th>
+              <th scope="col" class="py-3 px-3 text-uppercase fs-7 text-secondary fw-semibold" style="min-width: 220px;">Message</th>
+              <th scope="col" class="py-3 px-3 text-uppercase fs-7 text-secondary fw-semibold">Created Date</th>
+              <th scope="col" class="py-3 px-4 text-uppercase fs-7 text-secondary fw-semibold text-end">Status</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody">
+            <% if (leads && leads.length > 0) { %>
+              <% leads.forEach(function(lead) { %>
+                <tr id="lead-row-<%= lead._id %>" data-name="<%= lead.name.toLowerCase() %>" data-email="<%= lead.email.toLowerCase() %>" data-budget="<%= lead.budget %>" data-status="<%= lead.status %>">
+                  
+                  <!-- Name -->
+                  <td class="px-4 py-3">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="avatar-circle rounded-circle bg-primary-subtle text-primary fw-bold d-flex align-items-center justify-content-center">
+                        <%= lead.name.charAt(0).toUpperCase() %>
+                      </div>
+                      <div>
+                        <span class="fw-semibold text-white d-block"><%= lead.name %></span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Email -->
+                  <td class="px-3 py-3 text-light-muted">
+                    <a href="mailto:<%= lead.email %>" class="text-decoration-none text-light-muted hover-white">
+                      <i class="bi bi-envelope me-1 text-secondary"></i><%= lead.email %>
+                    </a>
+                  </td>
+
+                  <!-- Budget -->
+                  <td class="px-3 py-3">
+                    <span class="badge bg-secondary-subtle text-light border border-secondary-subtle px-2 py-1 rounded-2">
+                      <%= lead.budget %>
+                    </span>
+                  </td>
+
+                  <!-- Message -->
+                  <td class="px-3 py-3 text-light-muted fs-7">
+                    <div class="message-truncate" title="<%= lead.message %>">
+                      <%= lead.message %>
+                    </div>
+                  </td>
+
+                  <!-- Created Date -->
+                  <td class="px-3 py-3 text-secondary fs-7">
+                    <%= new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                  </td>
+
+                  <!-- Status Dropdown (AJAX updated) -->
+                  <td class="px-4 py-3 text-end">
+                    <div class="d-inline-block position-relative">
+                      <select 
+                        class="form-select form-select-sm status-select status-badge-<%= lead.status.toLowerCase() %> rounded-pill px-3 py-1 fw-semibold cursor-pointer border-0" 
+                        data-id="<%= lead._id %>"
+                        aria-label="Lead Status"
+                      >
+                        <option value="New" <%= lead.status === 'New' ? 'selected' : '' %>>New</option>
+                        <option value="Contacted" <%= lead.status === 'Contacted' ? 'selected' : '' %>>Contacted</option>
+                        <option value="Closed" <%= lead.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+                      </select>
+                      <span class="status-spinner spinner-border spinner-border-sm position-absolute top-50 start-0 translate-middle-y ms-2 d-none" role="status"></span>
+                    </div>
+                  </td>
+
+                </tr>
+              <% }); %>
+            <% } else { %>
+              <!-- Empty State -->
+              <tr id="empty-state-row">
+                <td colspan="6" class="text-center py-5">
+                  <div class="py-4">
+                    <i class="bi bi-inbox fs-1 text-secondary mb-3 d-block"></i>
+                    <h5 class="text-light fw-medium">No leads found</h5>
+                    <p class="text-muted small mb-3">Submissions from the lead form will appear here dynamically.</p>
+                    <a href="/#lead-form" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                      Submit Sample Lead
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="card-footer bg-dark-glass p-3 border-top border-secondary-subtle d-flex justify-content-between align-items-center fs-7 text-secondary">
+        <div>Showing <span id="visible-count"><%= leads ? leads.length : 0 %></span> leads</div>
+        <div>Real-time AJAX status updates enabled</div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<!-- Client Admin Script -->
+<script src="/js/admin.js"></script>
+
+<%- include('partials/footer') %>
