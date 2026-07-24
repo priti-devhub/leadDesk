@@ -197,23 +197,7 @@ Content-Type: application/json
     "createdAt": "2026-07-24T20:30:00.000Z"
   }
 }
-```
-
----
-
-## 📸 Screenshots
-
-*(Include screenshots of your application UI here)*
-
-| Public Landing Page | Admin Dashboard |
-|:---:|:---:|
-| ![Landing Page Placeholder](https://via.placeholder.com/600x350?text=Public+Landing+Page) | ![Admin Dashboard Placeholder](https://via.placeholder.com/600x350?text=Admin+Dashboard) |
-
-| Admin Login Screen | Mobile Responsive |
-|:---:|:---:|
-| ![Admin Login Placeholder](https://via.placeholder.com/600x350?text=Admin+Login+Card) | ![Mobile Placeholder](https://via.placeholder.com/600x350?text=Mobile+View) |
-
----
+``
 
 ## 🌐 Deployment
 
