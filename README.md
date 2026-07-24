@@ -200,29 +200,7 @@ Content-Type: application/json
 
 ---
 
-## 🌐 Deployment
 
-### Deploying on Render / Railway
-
-1. Push the repository to GitHub.
-2. Create a new **Web Service** on Render.
-3. Connect your GitHub repository.
-4. Configure the following environment variables:
-
-| Variable | Description |
-|----------|-------------|
-| PORT | Application Port |
-| NODE_ENV | production |
-| MONGODB_URI | MongoDB Atlas Connection String |
-| ADMIN_EMAIL | Admin Login Email |
-| ADMIN_PASSWORD | Admin Login Password |
-| SESSION_SECRET | Session Secret Key |
-
-**Build Command**
-
-```bash
-npm install
-```
 
 **Start Command**
 
@@ -240,6 +218,35 @@ npm start
 - Activity logs for lead status changes.
 
 ---
+## 🌐 Deployment
+
+### Deploying on Render
+
+1. Push the repository to GitHub.
+2. Create a new **Web Service** on Render.
+3. Connect your GitHub repository.
+4. Configure the following environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| PORT | Application Port |
+| NODE_ENV | production |
+| MONGODB_URI | MongoDB Atlas Connection String |
+| ADMIN_EMAIL | Admin Login Email |
+| ADMIN_PASSWORD | Admin Login Password |
+| SESSION_SECRET | Session Secret Key |
+
+### Build Command
+
+```bash
+npm install
+```
+
+### Start Command
+
+```bash
+npm start
+```
 
 ## 👨‍💻 Author
 
