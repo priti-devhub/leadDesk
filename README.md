@@ -197,8 +197,7 @@ Content-Type: application/json
     "createdAt": "2026-07-24T20:30:00.000Z"
   }
 }
-``
-
+---
 ## 🌐 Deployment
 
 ### Deploying on Render / Railway / Heroku:
