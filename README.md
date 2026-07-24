@@ -202,28 +202,59 @@ Content-Type: application/json
 
 ## 🌐 Deployment
 
-### Deploying on Render / Railway / Heroku:
-1. Push repository to GitHub.
-2. Create a new Web Service on Render / Railway.
+### Deploying on Render / Railway
+
+1. Push the repository to GitHub.
+2. Create a new **Web Service** on Render.
 3. Connect your GitHub repository.
-4. Set Environment Variables (`PORT`, `NODE_ENV=production`, `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SESSION_SECRET`).
-5. Build Command: `npm install`
-6. Start Command: `npm start`
+4. Configure the following environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| PORT | Application Port |
+| NODE_ENV | production |
+| MONGODB_URI | MongoDB Atlas Connection String |
+| ADMIN_EMAIL | Admin Login Email |
+| ADMIN_PASSWORD | Admin Login Password |
+| SESSION_SECRET | Session Secret Key |
+
+**Build Command**
+
+```bash
+npm install
+```
+
+**Start Command**
+
+```bash
+npm start
+```
 
 ---
 
-## 🔮 Future Improvements
+## 🚀 Future Improvements
 
-- [ ] Export leads to CSV / Excel format.
-- [ ] Email notification integration via Nodemailer / SendGrid upon new lead submission.
-- [ ] Multi-user admin role management (Super Admin, Sales Manager).
-- [ ] Activity audit logs for status modifications.
+- Export leads to CSV/Excel.
+- Email notifications using Nodemailer or SendGrid.
+- Multi-user role management (Super Admin, Sales Manager).
+- Activity logs for lead status changes.
 
 ---
 
 ## 👨‍💻 Author
 
-**Digital Heroes / LeadDesk Team**  
-Full Stack Developer & Software Architect  
+**Priti Jadhav**
 
-*Built with precision, modern UX standards, and production-ready security practices.*
+Full Stack Developer
+
+Developed for the **Digital Heroes Internship Qualification Task**.
+
+Built using:
+
+- HTML5
+- CSS3
+- JavaScript
+- Node.js
+- Express.js
+- MongoDB
+- EJS
